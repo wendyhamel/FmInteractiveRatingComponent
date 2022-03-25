@@ -38,9 +38,21 @@
 
 </head>
 <body class="bg-dark-blue text-white grid place-items-center h-screen px-6">
-  <main class="max-w-[420px] bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8">
+  <main
+      x-data="{rate: true, rating: false, submitted: false}"
+      class="max-w-[420px] bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8"
+  >
     <!-- Rating state start -->
-    <section class="flex flex-col gap-5 mx-2 md:gap-6 ">
+    <section
+          x-show="rate"
+          x-transition:enter="ease-in-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="ease-in-out duration-300"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          class="flex flex-col gap-5 mx-2 md:gap-6"
+    >
       <div class="rounded-full bg-white/5 w-10 h-10 grid place-items-center md:w-12 md:h-12">
         <img src="images/icon-star.svg" alt="star icon">
       </div>
@@ -50,22 +62,38 @@
       to help us improve our offering!
       </p>
       <div class="flex items-center justify-between gap-2">
-        <button class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-gray text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white active:bg-gray active:text-white ease-in-out duration-150"><span class="pt-1">1</span></button>
-        <button class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-gray text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white active:bg-gray active:text-white ease-in-out duration-150"><span class="pt-1">2</span></button>
-        <button class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-gray text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white active:bg-gray active:text-white ease-in-out duration-150"><span class="pt-1">3</span></button>
-        <button class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-gray text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white active:bg-gray active:text-white ease-in-out duration-150"><span class="pt-1">4</span></button>
-        <button class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-gray text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white active:bg-gray active:text-white ease-in-out duration-150"><span class="pt-1">5</span></button>
+        <button x-on:click="rating = 1" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 1 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">1</span></button>
+        <button x-on:click="rating = 2" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 2 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">2</span></button>
+        <button x-on:click="rating = 3" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 3 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">3</span></button>
+        <button x-on:click="rating = 4" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 4 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">4</span></button>
+        <button x-on:click="rating = 5" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 5 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">5</span></button>
       </div>
 
-      <button type="button" class="uppercase bg-orange rounded-full flex items-baseline justify-center text-sm leading-none tracking-widest p-3 hover:bg-white hover:text-orange ease-in-out duration-150"><span class="pt-1">Submit</span></button>
+      <button
+          x-on:click="submit()"
+          type="button"
+          class="uppercase bg-orange rounded-full flex items-baseline justify-center text-sm leading-none tracking-widest p-3 hover:bg-white hover:text-orange disabled:hover:bg-orange disabled:hover:text-white disabled:cursor-not-allowed ease-in-out duration-150"
+          :disabled="rating === false"
+      >
+        <span class="pt-1">Submit</span>
+      </button>
     </section>
     <!-- Rating state end -->
     <!-- Thank you state start -->
-    <section class="flex flex-col items-center gap-5 md:gap-6 md:mt-6 md:mb-4 md:mx-1 hidden">
+    <section
+        x-show="submitted"
+        x-transition:enter="ease-in-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in-out duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="flex flex-col items-center gap-5 md:gap-6 md:mt-6 md:mb-4 md:mx-1"
+    >
 
       <img src="images/illustration-thank-you.svg" alt="thank you illustration">
       <div class="rounded-full bg-white/5 text-orange text-small px-4 py-2 md:text-base md:px-5 md:py-1">
-        You selected <span>4</span> out of 5
+        You selected <span x-text="rating"></span> out of 5
       </div>
 
       <h2 class="text-2xl md:text-3xl">Thank you!</h2>
@@ -80,5 +108,12 @@
     Challenge by <a class="text-light-gray hover:underline hover:text-gray ease-in-out duration-150" href="https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW" target="_blank">Frontend Mentor</a>.
     Coded by <a class="text-light-gray hover:underline hover:text-gray ease-in-out duration-150" href="https://www.frontendmentor.io/profile/wendyhamel" target="_blank">Wendy Hamel</a>.
   </footer>
+  <script>
+    function submit() {
+      return {
+        // rate === false ? wait 300ms before submitted === true
+      };
+    }
+  </script>
 </body>
 </html>
