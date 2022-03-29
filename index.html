@@ -39,68 +39,76 @@
 </head>
 <body class="bg-dark-blue text-white grid place-items-center h-screen px-6">
   <main
-      x-data="{rate: true, rating: false, submitted: false}"
-      class="max-w-[420px] bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8"
+      x-data="rating()"
+      class="max-w-[420px]"
   >
     <!-- Rating state start -->
     <section
-          x-show="rate"
-          x-transition:enter="ease-in-out duration-300"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="ease-in-out duration-300"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          class="flex flex-col gap-5 mx-2 md:gap-6"
+        x-show="start"
+        x-transition:enter="ease-in-out duration-500"
+        x-transition:enter-start="opacity-0 scale-75"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="ease-in-out duration-500"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-50"
+        class="bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8"
     >
-      <div class="rounded-full bg-white/5 w-10 h-10 grid place-items-center md:w-12 md:h-12">
-        <img src="images/icon-star.svg" alt="star icon">
-      </div>
-      <h2 class="text-2xl md:text-3xl">How did we do?</h2>
-      <p class="text-gray text-sm leading-relaxed md:text-base">
-      Please let us know how we did with your support request. All feedback is appreciated
-      to help us improve our offering!
-      </p>
-      <div class="flex items-center justify-between gap-2">
-        <button x-on:click="rating = 1" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 1 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">1</span></button>
-        <button x-on:click="rating = 2" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 2 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">2</span></button>
-        <button x-on:click="rating = 3" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 3 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">3</span></button>
-        <button x-on:click="rating = 4" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 4 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">4</span></button>
-        <button x-on:click="rating = 5" type="button" class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:outline-none focus:bg-orange focus:text-white ease-in-out duration-150" :class="rating === 5 ? 'bg-gray text-white' :'text-gray'"><span class="pt-1">5</span></button>
-      </div>
+      <div class="flex flex-col gap-5 mx-2 md:gap-6">
+        <div class="rounded-full bg-white/5 w-10 h-10 grid place-items-center md:w-12 md:h-12">
+          <img src="images/icon-star.svg" alt="star icon">
+        </div>
+        <h2 class="text-2xl md:text-3xl">How did we do?</h2>
+        <p class="text-gray text-sm leading-relaxed md:text-base">
+        Please let us know how we did with your support request. All feedback is appreciated
+        to help us improve our offering!
+        </p>
+        <div class="flex items-center justify-between gap-2">
+          <template x-for="rate in rates">
+            <button
+                x-on:click="picked = rate.number"
+                type="button"
+                class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:border-none focus:ring-inset focus:ring-white ease-in-out duration-150"
+                :class="picked === rate.number ? 'bg-gray text-white' :'text-gray'"
+            >
+              <span class="pt-1" x-text="rate.number"></span>
+            </button>
+          </template>
+        </div>
 
-      <button
-          x-on:click="submit()"
-          type="button"
-          class="uppercase bg-orange rounded-full flex items-baseline justify-center text-sm leading-none tracking-widest p-3 hover:bg-white hover:text-orange disabled:hover:bg-orange disabled:hover:text-white disabled:cursor-not-allowed ease-in-out duration-150"
-          :disabled="rating === false"
-      >
-        <span class="pt-1">Submit</span>
-      </button>
+        <button
+            x-on:click="submit = true; start = false"
+            type="button"
+            class="uppercase bg-orange rounded-full flex items-baseline justify-center text-sm leading-none tracking-widest p-3 hover:bg-white hover:text-orange disabled:hover:bg-orange disabled:hover:text-white disabled:cursor-not-allowed ease-in-out duration-150"
+            :disabled="picked === false"
+        >
+          <span class="pt-1">Submit</span>
+        </button>
+      </div>
     </section>
     <!-- Rating state end -->
     <!-- Thank you state start -->
     <section
-        x-show="submitted"
-        x-transition:enter="ease-in-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="ease-in-out duration-300"
+        x-show.transition="submit"
+        x-transition:enter="transition ease-in-out origin-top delay-500 duration-700"
+        x-transition:enter-start="opacity-0 scale-75"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="ease-in-out duration-500"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="flex flex-col items-center gap-5 md:gap-6 md:mt-6 md:mb-4 md:mx-1"
+        class="bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8"
     >
+      <div class="flex flex-col items-center gap-5 md:gap-6 md:mt-6 md:mb-4 md:mx-1">
+        <img src="images/illustration-thank-you.svg" alt="thank you illustration">
+        <div class="rounded-full bg-white/5 text-orange text-small px-4 py-2 md:text-base md:px-5 md:py-1">
+          You selected <span x-text="picked"></span> out of 5
+        </div>
 
-      <img src="images/illustration-thank-you.svg" alt="thank you illustration">
-      <div class="rounded-full bg-white/5 text-orange text-small px-4 py-2 md:text-base md:px-5 md:py-1">
-        You selected <span x-text="rating"></span> out of 5
+        <h2 class="text-2xl md:text-3xl">Thank you!</h2>
+        <p class="text-gray text-sm leading-relaxed text-center md:text-base">
+          We appreciate you taking the time to give a rating. If you ever need more support,
+          don’t hesitate to get in touch!
+        </p>
       </div>
-
-      <h2 class="text-2xl md:text-3xl">Thank you!</h2>
-      <p class="text-gray text-sm leading-relaxed text-center md:text-base">
-        We appreciate you taking the time to give a rating. If you ever need more support,
-        don’t hesitate to get in touch!
-      </p>
     </section>
     <!-- Thank you state end -->
   </main>
@@ -109,9 +117,18 @@
     Coded by <a class="text-light-gray hover:underline hover:text-gray ease-in-out duration-150" href="https://www.frontendmentor.io/profile/wendyhamel" target="_blank">Wendy Hamel</a>.
   </footer>
   <script>
-    function submit() {
+    function rating() {
       return {
-        // rate === false ? wait 300ms before submitted === true
+        rates: [
+          { number: 1},
+          { number: 2},
+          { number: 3},
+          { number: 4},
+          { number: 5}
+        ],
+        picked : false,
+        start : true,
+        submit : false,
       };
     }
   </script>
