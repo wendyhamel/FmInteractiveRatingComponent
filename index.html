@@ -11,23 +11,7 @@
 
   <!-- Tailwind play cdn ( for development and play purposes ) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        fontFamily: {
-          'sans': ['Overpass', 'sans-serif'],
-        },
-        colors: {
-          orange: 'hsl(25, 97%, 53%)',
-          white: 'hsl(0, 0%, 100%)',
-          'light-gray': 'hsl(217, 12%, 63%)',
-          gray: 'hsl(216, 12%, 54%)',
-          blue: 'hsl(213, 19%, 18%)',
-          'dark-blue': 'hsl(216, 12%, 8%)',
-        }
-      }
-    }
-  </script>
+  <script src="src/tailwind-config.js"></script>
 
   <!-- Alpine.js -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -51,7 +35,7 @@
         x-transition:leave="ease-in-out duration-500"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-50"
-        class="bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8"
+        class="bg-gradient-to-b from-blue to-blue/20 rounded-3xl mx-auto px-6 pt-6 pb-8"
     >
       <div class="flex flex-col gap-5 mx-2 md:gap-6">
         <div class="rounded-full bg-white/5 w-10 h-10 grid place-items-center md:w-12 md:h-12">
@@ -95,7 +79,7 @@
         x-transition:leave="ease-in-out duration-500"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="bg-blue rounded-3xl mx-auto px-6 pt-6 pb-8"
+        class="bg-gradient-to-b from-blue to-blue/20 rounded-3xl mx-auto px-6 pt-6 pb-8"
     >
       <div class="flex flex-col items-center gap-5 md:gap-6 md:mt-6 md:mb-4 md:mx-1">
         <img src="images/illustration-thank-you.svg" alt="thank you illustration">
@@ -116,21 +100,6 @@
     Challenge by <a class="text-light-gray hover:underline hover:text-gray ease-in-out duration-150" href="https://www.frontendmentor.io/challenges/interactive-rating-component-koxpeBUmI" target="_blank">Frontend Mentor</a>.
     Coded by <a class="text-light-gray hover:underline hover:text-gray ease-in-out duration-150" href="https://www.frontendmentor.io/profile/wendyhamel" target="_blank">Wendy Hamel</a>.
   </footer>
-  <script>
-    function rating() {
-      return {
-        rates: [
-          { number: 1},
-          { number: 2},
-          { number: 3},
-          { number: 4},
-          { number: 5}
-        ],
-        picked : false,
-        start : true,
-        submit : false,
-      };
-    }
-  </script>
+  <script type="text/javascript" src="src/rating.js"></script>
 </body>
 </html>
