@@ -46,23 +46,29 @@
         Please let us know how we did with your support request. All feedback is appreciated
         to help us improve our offering!
         </p>
-        <div class="flex items-center justify-between gap-2">
+        <fieldset class="flex items-center justify-between gap-2">
+          <legend class="sr-only">Select a rating number from 1 to 5</legend>
           <template x-for="rate in rates">
-            <button
-                x-on:click="picked = rate.number"
-                type="button"
-                class="rounded-full w-10 h-10 grid place-items-center bg-white/5 text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus:border-none focus:ring-inset focus:ring-white ease-in-out duration-150"
-                :class="picked === rate.number ? 'bg-gray text-white' :'text-gray'"
+            <label
+                class="rounded-full w-10 h-10 grid place-items-center text-sm md:w-12 md:h-12 md:text-base hover:bg-orange hover:text-white focus-within:border-none focus-within:ring focus-within:ring-inset focus-within:ring-white ease-in-out duration-150"
+                :class="picked === rate.number ? 'bg-gray text-white' : 'bg-white/5 text-gray'"
             >
+              <input
+                  type="radio"
+                  name="rating"
+                  x-on:input="picked = rate.number"
+                  :value="rate.number"
+                  class="sr-only"
+              >
               <span class="pt-1" x-text="rate.number"></span>
-            </button>
+            </label>
           </template>
-        </div>
+        </fieldset>
 
         <button
             x-on:click="submit = true; start = false"
             type="button"
-            class="uppercase bg-orange rounded-full flex items-baseline justify-center text-sm leading-none tracking-widest p-3 hover:bg-white hover:text-orange disabled:hover:bg-orange disabled:hover:text-white disabled:cursor-not-allowed ease-in-out duration-150"
+            class="uppercase bg-orange rounded-full flex items-baseline justify-center text-sm leading-none tracking-widest p-3 hover:bg-white hover:text-orange disabled:hover:bg-orange disabled:hover:text-white disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-inset focus:ring-white ease-in-out duration-150"
             :disabled="picked === false"
         >
           <span class="pt-1">Submit</span>

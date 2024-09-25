@@ -7,8 +7,8 @@ window.rating = function() {
             { number: 4},
             { number: 5}
         ],
-        picked : null,
-        start : true,
-        submit : false,
+        picked: null,
+        start: true,
+        submit: false,
     }
 }
